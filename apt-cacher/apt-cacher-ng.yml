@@ -1,0 +1,18 @@
+# start with `docker-compose -f apt-cacher-ng.yml up -d`, stop with `docker-compose -f apt-cacher-ng.yml down`
+# This will set up an apt-cacher service
+# You can then run `./watch-apt-cacher.sh` to see the logs (normally these logs would be sent to the container's
+# stdout but apt-cacher-ng assumes it's running in the background and uses /var/log/ by default)
+version: '3.7'
+services:
+  apt-cacher-ng:
+    container_name: apt-cacher-ng
+    restart: unless-stopped
+    image: "sameersbn/apt-cacher-ng:${TAG:-latest}"
+    ports:
+    - "3142:3142"
+    volumes:
+    - apt_cache:/var/cache/apt-cacher-ng
+
+# We can use a volume to abstract our backing store, without having to mount to the host filesystem
+volumes:
+  apt_cache:

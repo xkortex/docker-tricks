@@ -1,0 +1,15 @@
+---
+
+version: '3.7'
+services:
+  ## Essential packages for building
+  fork:
+    build:
+      context: .
+      dockerfile: fork.df
+      args:
+        DO_APT: "${DO_APT}"
+        DO_COPY: "${DO_COPY}"
+        OS_VERS: ${OS_VERS:-18.04}
+    image: "${IMAGE_REGISTRY:-xkortex}/${OS_BASE:-ubuntu}:${TAG:-latest}-${DO_APT:-false}"
+

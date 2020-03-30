@@ -1,0 +1,16 @@
+# Test out building a container with the apt-cacher-ng acceleration
+# You can watch the cache hits with
+# docker exec -it $CACHER_CONTANER_NAME tail -f /var/log/apt-cacher-ng/apt-cacher.log
+
+version: '3.7'
+services:
+  test-cacher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host  # added in compose 3.4, we need this to be able to talk to the apt-cacher-ng container
+      # there's more secure ways of doing this, but this is easiest
+    image: "test-cacher:${TAG:-latest}"
+    tty: true
+    network_mode: host
+    command: ["bash"]

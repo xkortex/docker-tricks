@@ -1,0 +1,16 @@
+# This is a docker-compose file! It does (nearly) everything that `docker VERB` does, in a concise declarative syntax
+# Individual containers are called "services". Here we want to build a container called 'foo', tag it, and
+version: '3.7'
+services:
+  foo:
+    build:
+      context: .  # This tells the docker engine what to copy into the docker context (a sort of temp dir).
+                  # Outside of this, NOTHING EXISTS to the docker COPY command
+      dockerfile: Dockerfile
+      args:
+        # Default value for missing variables works much like in bash, ${FOO:-bar} will look for $FOO in the
+        # environment, as well as the .env file. If not found, it defaults to 'bar'.
+        BASE_IMAGE_URI: "${BASE_IMAGE_URI:-ubuntu}"
+        TAG: "${TAG:-18.04}"
+    image: "${TARGET_REGISTRY:-xkortex/foo}:${TAG:-latest}"
+
