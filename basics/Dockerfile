@@ -2,9 +2,9 @@
 # Variables here are "global" and can be utilized by any stage
 ARG BASE_IMAGE_URI=ubuntu
 ARG TAG=18.04
+FROM ${BASE_IMAGE_URI}:${TAG} as base
 
 # === Base image. We can use FROM and use the same of the stage to "inherit" the base image===
-FROM ${BASE_IMAGE_URI}:${TAG} as base
 
 RUN apt-get update -qq && apt-get install -yq \
         curl \
